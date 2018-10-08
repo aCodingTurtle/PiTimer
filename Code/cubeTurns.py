@@ -1,5 +1,5 @@
 #
-# cubeTurns
+# cubeTurns - Cube Notation Lists for Scramble Generation
 #
 
 x2 = [
