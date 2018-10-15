@@ -32,9 +32,8 @@ class Scramble:
         #Check for Repeat  
         if move == lastMove:
           move = random.choice(cubeTurns.x2)
-        
-        if mod == lastMod:
-          mod = random.choice(cubeTurns.modifiers)
+          if mod == lastMod:
+            mod = random.choice(cubeTurns.modifiers)
 
         #Print Move
         print(move, end=mod)
