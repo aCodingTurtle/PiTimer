@@ -1,4 +1,4 @@
-#
+# # # # # # # # # # # # # # # # # # # # # #
 #
 #  PiTimer: A Python Cube Timer for the RPi
 #
@@ -27,18 +27,19 @@ class Scramble:
 
       for m in range(scrambleSize):
         move = random.choice(cubeTurns.x2)
+        mod = random.choice(cubeTurns.modifiers)
 
         #Check for Repeat  
-        if move[0] == lastMove:
+        if move == lastMove:
           move = random.choice(cubeTurns.x2)
-        else:
-          lastMove = move[0]
+          if mod == lastMod:
+            mod = random.choice(cubeTurns.modifiers)
 
-        #Add Prime (or not if a double rotation)
-        if "2" in str(move):
-          print(move, end=" ")
-        else:
-          print(move, end=random.choice(cubeTurns.modifiers))
+        #Print Move
+        print(move, end=mod)
+        
+        lastMove = move
+        lastMod = mod
 
 scramble2 = Scramble(2)
 scramble2.generateScramble()
