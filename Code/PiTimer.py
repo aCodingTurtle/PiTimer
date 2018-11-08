@@ -86,12 +86,30 @@ class Session:
       self.solveNums = solveNums
       #Gets the number of solves in session
 
-    #def newSolve():
-      #New solve class
+    times = []
+    scrambles = []
+      
+    def sesson(cube, inspection, solveNums, constantPrint):
+      sessionCube = Scramble(cube)
+      for i in range(solveNums):
+        thisScramble = sessionCube.generateScramble()
+        scrambles.append(thisScramble)
+        #print that to Tk
+        
+        times.append(sessionCube.timer(inspection))
+        #print to Tk or make the function print to Tk itself
+        
+        if constantPrint == True:
+          printSession()
+        
 
     #def printSession():
-
-
+       #prints the times and scrambles to the Tk window
+       
+       #Enable text area
+       #Clear text
+       #Write results
+       #Disable text area
 
 
 #generates a test scramble and prints
