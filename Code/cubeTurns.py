@@ -2,21 +2,18 @@
 # cubeTurns - Cube Notation Lists for Scramble Generation
 #
 
-x2 = [
+Moves = {
 
-    "R",
-    "L",
-    "U",
-    "D",
-    "F",
-    "B",
+    "RL" : ["R" , "L"],
+    "UD" : ["U" , "D"],
+    "FB" : ["F" , "B"]
 
-]
+}
 
 
-modifiers = [
-    " ", #Nothing
-    " ", #Nothing (for probability)
+Modifiers = [
+    " ",  #Nothing
+    " ",  #Nothing (for probability)
     "' ", #Prime
     "2 ", #DoubleTurn
 ]
