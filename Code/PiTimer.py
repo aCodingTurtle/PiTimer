@@ -16,7 +16,7 @@ class Cube:
     def __init__(self, cubeType):
         self.cubeType = cubeType
 
-    def scramble():
+    def scramble(self):
 
         scrambleText = ""
         
@@ -31,28 +31,28 @@ class Cube:
         lastMod = "'"
 
         for m in range(scrambleSize):
-            moveSet = random.choice(cubeTurns.Moves)
-            move = random.choice(moveSet)
-            mod = random.choice(cubeTurns.Modifiers)
+            moveSet = random.choice(list(cubeTurns.Moves))
+            move = random.choice(list(moveSet))
+            mod = random.choice(list(cubeTurns.Modifiers))
 
             #Check for Repeat
             if moveSet == lastMoveSet:
                 while move == lastMove:
-                    move = random.choice(moveSet)
+                    move = random.choice(list(moveSet))
                 while mod == lastMod:
-                    mod = random.choice(cubeTurns.Modifiers)
+                    mod = random.choice(list(cubeTurns.Modifiers))
 
             #Print Move
-            scramble = scramble + str(move) + str(mod) + " "
+            scrambleText = scrambleText + str(move) + str(mod) + " "
 
             lastMoveSet = moveSet
             lastMove = move
             lastMod = mod
 
-        print(scramble)
-        return scramble
+        print(scrambleText)
+        return scrambleText
 
-    def timer(inspect):
+    def timer(self, inspect):
 
         mils = 0
         secs = 0
@@ -74,82 +74,58 @@ class Cube:
             elif secs > 59:
                 secs = 0
                 mins += 1
-            elif secs == 20:
+            elif secs == 10:
                 stopped = True
                 break
             time.sleep(0.1)
-        finishTime = (" %02d : %02d : %d " % (mins, secs, (mils - 1)))
-        return finishTime
-    
+        finishTimeText = (" %02d : %02d : %d " % (mins, secs, (mils - 1)))
+        finishTimeNumb = [mins, secs, mils]
 
-##class Scramble:
-##    'Creates a Scramble and Solve Time for 3x3 or 2x2'
-##
-##    def __init__(self, cube):
-##      if 1 < cube < 4:
-##        self.cube = cube
-##
-##    def generateScramble(self):
-##
-##      scramble = ""
-##
-##      #Set Scramble Length
-##      if self.cube == 2:
-##        scrambleSize = 10
-##      elif self.cube == 3:
-##        scrambleSize = 15
-##
-##      lastMove = "B"
-##      lastMod = "'"
-##
-##      for m in range(scrambleSize):
-##        move = random.choice(cubeTurns.x2)
-##        mod = random.choice(cubeTurns.modifiers)
-##
-##        #Check for Repeat
-##        if move == lastMove:
-##          move = random.choice(cubeTurns.x2)
-##          if mod == lastMod:
-##            mod = random.choice(cubeTurns.modifiers)
-##
-##        #Print Move
-##        scramble = scramble + str(move) + str(mod) + " "
-##
-##        lastMove = move
-##        lastMod = mod
-##
-##      print(scramble)
-##      return scramble
+        return finishTimeText, finishTimeNumb
 
 
 class Session:
     'Creates a session of a few solves and then gives stats'
 
-    def __init__(self, solveNums, inspection, cube):
-        self.solveNums = solveNums
+    timeList = []    #lists for storing stats
+    scrambList = []
+
+    def __init__(self, solves, inspection, cube):
+        self.solves = solves
         self.inspection = inspection
         self.cube = cube
         #Gets the number of solves in session
         #Sets inspection time for each solve
 
-        timeList = []    #lists for storing stats
-        scrambList = []  #
-
-    def session():
-        print("Starting a Session of %d" % solveNums)
-        for i in range(int(solveNums)):
-            scrambList.append(cube.scramble())
+    def session(self):
+        print("Starting a Session of %d" % self.solves)
+        for i in range(int(self.solves)):
+            Session.scrambList.append(self.cube.scramble())
             input("Ready!")
-            timeList.append(cube.timer(inspection))
+            Session.timeList.append(self.cube.timer(self.inspection)[1])
             
-    def getAverage():
+    def getAverage(self):
         totalTime = 0
-        for i in range(len(timeList)):
-            totalTime += timeList[i]
-        return int(totalTime / len(timeList))
+        for i in range(len(Session.timeList)):
+            totalTime += Session.timeList[i][0] * 60  #
+            totalTime += Session.timeList[i][1]       # Lists -> Total Seconds
+            totalTime += Session.timeList[i][2] * 0.1 #
+        avgTimeList = divmod(int(totalTime / len(Session.timeList)), 60)
+        avgTimeList = str(avgTimeList[1]).split('.')
+        return str(avgTimeList[0]) + str(avgTimeList[1][0]) + str(avgTimeList[1][1])
 
-    def printSession():
-        for i in range(len(timeList)):
-            print(scrambList[i] + " : " + timeList[i])
-        print("Average : " + getAverage())
+    def printSession(self):
+        for i in range(len(Session.timeList)):
+            print(Session.scrambList[i] + " : " + str(Session.timeList[i]))
+        print("Average : " + Session.getAverage(self))
+
+valk = Cube(3)
+valk.scramble()
+#Cube Test
+
+mySession = Session(1, 3, valk)
+mySession.session()
+time.sleep(1)
+mySession.printSession()
+#Session Tests
 
