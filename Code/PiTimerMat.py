@@ -89,7 +89,7 @@ class Cube:
             elif secs > 59:
                 secs = 0
                 mins += 1
-            elif GPIO.input(LH) == 1 and GPIO.input(RH):
+            elif GPIO.input(LH) == 1 and GPIO.input(RH) == 1:
                 stopped = True
                 GPIO.wait_for_edge(LH, GPIO.RISING) or GPIO.wait_for_edge(RH, GPIO.Rising)
                 break
@@ -127,9 +127,13 @@ class Session:
             totalTime += Session.timeList[i][0] * 60  #
             totalTime += Session.timeList[i][1]       # Lists -> Total Seconds
             totalTime += Session.timeList[i][2] * 0.1 #
-        avgTimeList = divmod(int(totalTime / len(Session.timeList)), 60)
-        avgTimeList = str(avgTimeList[1]).split('.')
-        return str(avgTimeList[0]) + str(avgTimeList[1][0]) + str(avgTimeList[1][1])
+        avgTimeList = []
+        avgTimeList.append(floor(Session.totalTime / 60))
+        totaltime = totaltime % 60
+        avgTimeList.append(floor(Session.totalTime / 1))
+        totaltime = totaltime % 1
+        avgTimeList.append(Session.totalTime)
+        return avgTimeList
 
     def printSession(self):
         for i in range(len(Session.timeList)):
